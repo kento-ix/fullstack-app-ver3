@@ -37,7 +37,7 @@ const Login = ({switchToRegister}: LoginProps) => {
     if (loginSuccess) {
         return (
             <div className='mt-9 flex item-center justify-center'>
-                <h1 className='text-green-600'>Login Successful!</h1>
+                <h1 className='text-xl text-green-600'>Login Successful!</h1>
             </div>
         );
     }

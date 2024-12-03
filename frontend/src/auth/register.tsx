@@ -1,15 +1,16 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 type RegisterProps = {
   switchToLogin: () => void;
-}
+};
 
 const Register = ({switchToLogin}: RegisterProps) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [registerSuccess, setRegisterSuccess] = useState(false); 
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -23,10 +24,28 @@ const Register = ({switchToLogin}: RegisterProps) => {
         try {
             const response = await axios.post("http://localhost:4000/api/flask/register", formData);
             console.log('Response:', response.data);
+            if (response.status === 201) {
+              setRegisterSuccess(true); 
+            }
         } catch (error) {
             console.error("There was an error!", error);
+            setErrorMessage("Invalid input"); 
         }
     };
+
+    if (registerSuccess) {
+      return (
+        <div className='flex item-center justify-center'>
+          <h1 className='text-xl mr-3'>Register Successful! </h1>
+          <h1 
+            className="text-xl text-red-600 cursor-pointer"
+            onClick={switchToLogin}
+          >
+            Move to Login
+          </h1>
+        </div>
+      );
+    }
 
     return (
       <div>
@@ -54,6 +73,7 @@ const Register = ({switchToLogin}: RegisterProps) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {errorMessage && <p className="text-red-600">{errorMessage}</p>}
               <p 
                 className="mt-4 text-blue-600 cursor-pointer"
                 onClick={switchToLogin}

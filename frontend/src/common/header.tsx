@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Button from "../component/button";
 import Modal from "../component/modal";
 import Register from "../auth/register";
