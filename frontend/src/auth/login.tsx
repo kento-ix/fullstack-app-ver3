@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loginSuccess, setLoginSuccess] = useState(false); // ログイン成功フラグ
-    const [errorMessage, setErrorMessage] = useState(''); // エラーメッセージ
+    const [loginSuccess, setLoginSuccess] = useState(false); 
+    const [errorMessage, setErrorMessage] = useState(''); 
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,11 +21,11 @@ const Login = () => {
             const response = await axios.post("http://localhost:4000/api/flask/login", formData);
             console.log('Response:', response.data);
             if (response.status === 200) {
-                setLoginSuccess(true); // ログイン成功
+                setLoginSuccess(true); 
             }
         } catch (error) {
             console.error("There was an error!", error);
-            setErrorMessage("Invalid email or password"); // エラーメッセージをセット
+            setErrorMessage("Invalid email or password"); 
         }
     };
 
@@ -55,7 +55,7 @@ const Login = () => {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    {errorMessage && <p className="text-red-600">{errorMessage}</p>} {/* エラーメッセージを表示 */}
+                    {errorMessage && <p className="text-red-600">{errorMessage}</p>}
                     <p 
                         className="mt-4 text-blue-600 cursor-pointer"
                         onClick={() => navigate("/register")}
