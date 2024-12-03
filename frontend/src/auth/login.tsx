@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -40,6 +42,12 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+                <p 
+                className="mt-4 text-blue-600 cursor-pointer"
+                onClick={() => navigate("/register")}
+                >
+                Do not have account? Register
+                </p>
               <button className='bg-red-600 text-white p-3'>Login</button>
             </form>
         </div>

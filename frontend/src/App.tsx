@@ -1,13 +1,18 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import './App.css';
 import Register from './auth/register';
+import Login from './auth/login';
 
-function App() {
+const App: React.FC = () => {
   return (
-    <div className="">
-      <Register/>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Navigate to="/register" />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
   );
 }
 
