@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 
 
-const Register = () => {
-    const [name, setName] = useState('');
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -11,13 +10,12 @@ const Register = () => {
         e.preventDefault();
 
         const formData = {
-            name: name,
             email: email,
             password: password
         };
 
         try {
-            const response = await axios.post("http://localhost:4000/api/flask/register", formData);
+            const response = await axios.post("http://localhost:4000/api/flask/login", formData);
             console.log('Response:', response.data);
         } catch (error) {
             console.error("There was an error!", error);
@@ -28,14 +26,6 @@ const Register = () => {
       <div>
           <div className='mt-9 flex item-center justify-center '>
             <form onSubmit={handleSubmit} className='border border-gray-500 p-3 flex flex-col gap-6 w-60'>
-              <input 
-                type="text" 
-                placeholder='Username' 
-                className='border border-black'
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-
               <input 
                 type="text" 
                 placeholder='Email' 
@@ -50,7 +40,7 @@ const Register = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-              <button className='bg-red-600 text-white p-3'>Register</button>
+              <button className='bg-red-600 text-white p-3'>Login</button>
             </form>
         </div>
       </div>
@@ -58,4 +48,4 @@ const Register = () => {
 }
 
 
-export default Register;
+export default Login;
