@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 
 const Register = () => {
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -12,7 +12,7 @@ const Register = () => {
         e.preventDefault();
 
         const formData = {
-            username: username,
+            name: name,
             email: email,
             password: password
         };
@@ -33,8 +33,8 @@ const Register = () => {
             type="text" 
             placeholder='Username' 
             className='border border-black'
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
 
           <input 
