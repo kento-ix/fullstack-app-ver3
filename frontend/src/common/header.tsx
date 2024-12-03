@@ -6,18 +6,23 @@ import Register from "../auth/register";
 import Login from "../auth/login";
 
 const Header = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [modalType, setModalType] = useState<"register" | "login" | null>(null);
 
+    const handleCloseModal = () => setModalType(null);
+    
     return(
         <div className="border-b border-black h-20">
-            <Button name="Register" onClick={() => setIsModalOpen(true)}/>
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <Register />
-            </Modal>
+            <Button name="Register" onClick={() => setModalType("register")}/>
 
-            <Button name="Login" onClick={() => setIsModalOpen(true)}/>
-            <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-                <Login />
+            <Button name="Login" onClick={() => setModalType("login")}/>
+
+
+            <Modal isOpen={modalType !== null} onClose={handleCloseModal}>
+                {modalType === "register" && 
+                    <Register switchToLogin={() => setModalType("login")}/>}
+                {modalType === "login" && (
+                    <Login switchToRegister={() => setModalType("register")} />
+                )}
             </Modal>
         </div>
     );

@@ -1,13 +1,18 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+
+type LoginProps = {
+    switchToRegister: () => void;
+};
+
+const Login = ({switchToRegister}: LoginProps) => {
+
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loginSuccess, setLoginSuccess] = useState(false); 
     const [errorMessage, setErrorMessage] = useState(''); 
-    const navigate = useNavigate();
+    
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -58,7 +63,7 @@ const Login = () => {
                     {errorMessage && <p className="text-red-600">{errorMessage}</p>}
                     <p 
                         className="mt-4 text-blue-600 cursor-pointer"
-                        onClick={() => navigate("/register")}
+                        onClick={switchToRegister}
                     >
                         Do not have account? Register
                     </p>

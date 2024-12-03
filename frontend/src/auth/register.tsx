@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+type RegisterProps = {
+  switchToLogin: () => void;
+}
 
-const Register = () => {
+const Register = ({switchToLogin}: RegisterProps) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -21,7 +23,6 @@ const Register = () => {
         try {
             const response = await axios.post("http://localhost:4000/api/flask/register", formData);
             console.log('Response:', response.data);
-            navigate("/login");
         } catch (error) {
             console.error("There was an error!", error);
         }
@@ -55,7 +56,7 @@ const Register = () => {
               />
               <p 
                 className="mt-4 text-blue-600 cursor-pointer"
-                onClick={() => navigate("/login")}
+                onClick={switchToLogin}
               >
                 Already have an account? Login
               </p>
