@@ -28,7 +28,7 @@ def test():
   return jsonify({'message': 'The server is running'})
 
 # register user
-@app.route('/api/flask/users', methods=['POST'])
+@app.route('/api/flask/register', methods=['POST'])
 def create_user():
   try:
     data = request.get_json()

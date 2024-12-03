@@ -1,4 +1,20 @@
 services:
+  #react service
+  reactapp:
+    container_name: reactapp
+    image: reactapp:1.0.0
+    build:
+      context: ./frontend
+      dockerfile: react.dockerfile
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+    environment:
+    - NEXT_PUBLIC_API_URL=http://localhost:4000
+    depends_on:
+      - flaskapp
+
   # flask service
   flaskapp:
     container_name: flaskapp
