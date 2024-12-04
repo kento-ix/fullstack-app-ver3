@@ -3,7 +3,6 @@ import Button from "../component/button";
 import Modal from "../component/modal";
 import Register from "../auth/register";
 import Login from "../auth/login";
-import FavoritePage from "../pages/Favorite";
 import MenuIcon from '@mui/icons-material/Menu';
 
 const Header = () => {
@@ -26,7 +25,6 @@ const Header = () => {
                         <ul>
                             <li><Button name="Register" onClick={() => setModalType("register")}/></li>
                             <li><Button name="Login" onClick={() => setModalType("login")}/></li>
-                            <li><FavoritePage/></li>
                         </ul>
                     </div>
                 )}
