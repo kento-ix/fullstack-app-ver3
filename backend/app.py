@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  
 from os import environ
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from flask_jwt_extended import JWTManager, create_access_token
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
@@ -32,6 +32,10 @@ def test():
 def create_user():
   try:
     data = request.get_json()
+    email = data.get('email')
+
+    if User.query.filter_by(email=email).first():
+        return jsonify({'message': 'Email already exists'}), 409
 
     if 'password' not in data or not data['password']:
       return make_response(jsonify({'message': 'Password is required'}), 400)
@@ -45,7 +49,7 @@ def create_user():
         'id': new_user.id,
         'name': new_user.name,
         'email': new_user.email
-    }), 201  
+    }), 201
 
   except Exception as e:
     return make_response(jsonify({'message': 'error creating user', 'error': str(e)}), 500)
