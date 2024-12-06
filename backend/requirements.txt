@@ -3,4 +3,5 @@ psycopg2-binary
 Flask-SQLAlchemy
 Flask-CORS
 werkzeug
-
+Flask-JWT-Extended
+python-dotenv

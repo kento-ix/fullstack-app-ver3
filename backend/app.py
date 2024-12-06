@@ -3,11 +3,21 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS  
 from os import environ
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import JWTManager, create_access_token
+from datetime import timedelta
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
+
+app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+jwt = JWTManager(app)
+
 db = SQLAlchemy(app)
 
 class User(db.Model):
@@ -26,6 +36,14 @@ db.create_all()
 @app.route('/test', methods=['GET'])
 def test():
   return jsonify({'message': 'The server is running'})
+
+
+
+@app.route('/check-secret', methods=['GET'])
+def check_secret():
+    print("DEBUG: JWT_SECRET_KEY =", app.config.get('JWT_SECRET_KEY'))
+    return jsonify({'message': 'Check complete'}), 200
+
 
 # register user
 @app.route('/api/flask/register', methods=['POST'])
@@ -56,8 +74,15 @@ def login():
   try:
     data = request.get_json()
     user = User.query.filter_by(email=data['email']).first()
+
     if user and check_password_hash(user.password, data['password']):
-      return jsonify({'message': 'Login successful', 'user': user.json()}), 200
+      access_token = create_access_token(identity=user.id)
+      return make_response(jsonify({
+        'message': 'Login successful',
+        'access_token': access_token,
+        'user': user.json()
+      }), 200)
+
     return make_response(jsonify({'message': 'Invalid email or password'}), 401)
   except Exception as e:
     return make_response(jsonify({'message': 'error during login', 'error': str(e)}), 500)
