@@ -8,35 +8,29 @@ from datetime import timedelta
 from dotenv import load_dotenv
 import os
 
+from table.db import db, User  # Import db and User from db.py
+
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
-app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 
+CORS(app)
+
+app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DATABASE_URL')
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY')
 app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(hours=1)
+
+db.init_app(app)  # Initialize db with app
+
 jwt = JWTManager(app)
 
-db = SQLAlchemy(app)
-
-class User(db.Model):
-  __tablename__ = 'users'
-  id = db.Column(db.Integer, primary_key=True)
-  name = db.Column(db.String(80), unique=True, nullable=False)
-  email = db.Column(db.String(120), unique=True, nullable=False)
-  password = db.Column(db.String(200), nullable=False)
-
-  def json(self):
-    return {'id': self.id,'name': self.name, 'email': self.email}
-  
-db.create_all()
+with app.app_context():
+    db.create_all()
 
 # create a test route
 @app.route('/test', methods=['GET'])
 def test():
   return jsonify({'message': 'The server is running'})
-
 
 
 @app.route('/check-secret', methods=['GET'])
