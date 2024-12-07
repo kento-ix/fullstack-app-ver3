@@ -25,22 +25,22 @@ const Header = () => {
     };
     
     return(
-        <div className="border-b border-black h-20  items-center space-x-4">
-            <Link to="/" className="text-xl font-bold text-blue-500 hover:underline">
+        <div className="border-b border-black h-20 flex items-center justify-between px-6">
+            <Link to="/" className="hover:text-blue-400 text-2xl">
                 Home
             </Link>
 
-            <div className="relative mr-6 flex flex-row-reverse">
-                <MenuIcon onClick={handleMenuClick} className="cursor-pointer" />    
+            <div className="relative">
+                <MenuIcon onClick={handleMenuClick} className="cursor-pointer" />
                 {menuOpen && (
                     <div className="absolute top-full right-0 mt-2 p-4 bg-white border border-gray-300 shadow-lg w-48">
                         <ul>
-                            <li><Button name="Register" onClick={() => setModalType("register")}/></li>
-                            <li><Button name="Login" onClick={() => setModalType("login")}/></li>
+                            <li><Button name="Register" onClick={() => setModalType("register")} /></li>
+                            <li><Button name="Login" onClick={() => setModalType("login")} /></li>
                             <li>
                                 <button
-                                    onClick={handleNavigateToMyListing} // ボタンにクリックイベントを設定
-                                    className="block text-center text-blue-500 hover:underline"
+                                    onClick={handleNavigateToMyListing}
+                                    className="hover:text-blue-400"
                                 >
                                     My Listing
                                 </button>
@@ -51,10 +51,9 @@ const Header = () => {
             </div>
 
             <Modal isOpen={modalType !== null} onClose={handleCloseModal}>
-                {modalType === "register" && <Register switchToLogin={() => setModalType("login")}/>}
+                {modalType === "register" && <Register switchToLogin={() => setModalType("login")} />}
                 {modalType === "login" && <Login switchToRegister={() => setModalType("register")} />}
             </Modal>
-
         </div>
     );
 }
