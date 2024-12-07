@@ -12,7 +12,7 @@ The project demonstrates how to operate a system using React, Go, and PostgreSQL
 
 | Language・Framework |  version |
 | -------------------- | ---------- |
-| Next.js             | 18         |
+| React                | 18         |
 | Python               | 3.6       |
 | PostgresSQL          | latest     |
 | Docker               | 27.2.0     |
