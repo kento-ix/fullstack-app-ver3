@@ -6,7 +6,7 @@ docker-test
 
 ### The purpsse of this project
 
-The project demonstrates how to operate a system using React, Go, and PostgreSQL within Docker containers.
+The project demonstrates how to operate a system using React, Python, and PostgreSQL within Docker containers.
 
 ## 2.Tech stack
 
