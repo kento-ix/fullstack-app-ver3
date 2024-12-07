@@ -11,6 +11,7 @@ const App: React.FC = () => {
     <Router>
         <Header/>
       <Routes>
+        <Route path="/"/>
         <Route path="/mylisting" element={<MyListing />} />
       </Routes>
     </Router>
