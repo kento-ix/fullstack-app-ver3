@@ -5,14 +5,23 @@ import Register from "../auth/register";
 import Login from "../auth/login";
 import MenuIcon from '@mui/icons-material/Menu';
 
+import { Link, useNavigate } from "react-router-dom";
+
 const Header = () => {
     const [modalType, setModalType] = useState<"register" | "login" | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
+    const navigate = useNavigate();
 
     const handleCloseModal = () => setModalType(null);
 
     const handleMenuClick = () => {
         setMenuOpen(!menuOpen);
+    };
+
+    const handleNavigateToMyListing = () => {
+        setModalType(null); 
+        setMenuOpen(false); 
+        navigate("/mylisting"); 
     };
     
     return(
@@ -25,6 +34,14 @@ const Header = () => {
                         <ul>
                             <li><Button name="Register" onClick={() => setModalType("register")}/></li>
                             <li><Button name="Login" onClick={() => setModalType("login")}/></li>
+                            <li>
+                                <button
+                                    onClick={handleNavigateToMyListing} // ボタンにクリックイベントを設定
+                                    className="block text-center text-blue-500 hover:underline"
+                                >
+                                    My Listing
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 )}
