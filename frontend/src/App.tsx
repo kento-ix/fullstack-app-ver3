@@ -4,6 +4,7 @@ import './App.css';
 import Header from './common/header';
 import MyListing from './pages/Listing'
 import Setting from './pages/Setting';
+import Favorites from './pages/Favorites';
 import Home from './pages/Home';
 
 const App: React.FC = () => {
@@ -11,9 +12,10 @@ const App: React.FC = () => {
     <Router>
         <Header/>
       <Routes>
-        <Route path="/" element={<Home />}/>
+        <Route path="/" element={<Home />}/>/
         <Route path="/mylisting" element={<MyListing />} />
         <Route path="setting" element={<Setting />}/>
+        <Route path="favorites" element={<Favorites />} />
       </Routes>
     </Router>
   );

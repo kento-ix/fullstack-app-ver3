@@ -72,6 +72,13 @@ const Header = () => {
                                     Setting
                                 </button>
                             </li>
+                            <li>
+                                <button
+                                    onClick={() => handleNavigation("/favorites")}
+                                >
+                                    Favorites
+                                </button>
+                            </li>
                         </ul>
                     </div>
                 )}
