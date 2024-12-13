@@ -19,13 +19,12 @@ const Header = () => {
         setMenuOpen(!menuOpen);
     };
 
-    const handleNavigateToMyListing = () => {
-        setModalType(null); 
-        setMenuOpen(false); 
-        navigate("/mylisting"); 
+    const handleNavigation = (path:string) => {
+        setModalType(null);
+        setMenuOpen(false);
+        navigate(path);
     };
 
-    // Close the menu if clicked outside
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -59,10 +58,18 @@ const Header = () => {
                             </li>
                             <li>
                                 <button
-                                    onClick={handleNavigateToMyListing}
+                                    onClick={() => handleNavigation("/mylisting")}
                                     className="hover:text-blue-400"
                                 >
                                     My Listing
+                                </button>
+                            </li>
+                            <li>
+                                <button
+                                    onClick={() => handleNavigation("/setting")}
+                                    className="hover:text-blue-400"
+                                >
+                                    Setting
                                 </button>
                             </li>
                         </ul>

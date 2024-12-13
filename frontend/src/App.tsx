@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import './App.css';
 import Header from './common/header';
 import MyListing from './pages/Listing'
+import Setting from './pages/Setting';
 import Home from './pages/Home';
 
 const App: React.FC = () => {
@@ -12,6 +13,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="/mylisting" element={<MyListing />} />
+        <Route path="setting" element={<Setting />}/>
       </Routes>
     </Router>
   );
