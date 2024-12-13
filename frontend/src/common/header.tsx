@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button from "../component/button";
 import Modal from "../component/modal";
 import Register from "../auth/register";
@@ -11,6 +11,7 @@ const Header = () => {
     const [modalType, setModalType] = useState<"register" | "login" | null>(null);
     const [menuOpen, setMenuOpen] = useState(false);
     const navigate = useNavigate();
+    const menuRef = useRef<HTMLDivElement | null>(null);
 
     const handleCloseModal = () => setModalType(null);
 
@@ -23,20 +24,39 @@ const Header = () => {
         setMenuOpen(false); 
         navigate("/mylisting"); 
     };
-    
-    return(
+
+    // Close the menu if clicked outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setMenuOpen(false);
+            }
+        };
+
+        document.addEventListener("mousedown", handleClickOutside);
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
+    return (
         <div className="border-b border-black h-20 flex items-center justify-between px-6">
             <Link to="/" className="hover:text-blue-400 text-2xl">
                 Home
             </Link>
 
-            <div className="relative">
+            <div className="relative" ref={menuRef}>
                 <MenuIcon onClick={handleMenuClick} className="cursor-pointer" />
                 {menuOpen && (
                     <div className="absolute top-full right-0 mt-2 p-4 bg-white border border-gray-300 shadow-lg w-48">
                         <ul>
-                            <li><Button name="Register" onClick={() => setModalType("register")} /></li>
-                            <li><Button name="Login" onClick={() => setModalType("login")} /></li>
+                            <li>
+                                <Button name="Register" onClick={() => setModalType("register")} />
+                            </li>
+                            <li>
+                                <Button name="Login" onClick={() => setModalType("login")} />
+                            </li>
                             <li>
                                 <button
                                     onClick={handleNavigateToMyListing}
@@ -56,6 +76,6 @@ const Header = () => {
             </Modal>
         </div>
     );
-}
+};
 
 export default Header;
