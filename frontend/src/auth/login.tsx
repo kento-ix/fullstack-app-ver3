@@ -1,77 +1,87 @@
-import React, { useState } from "react";
-import axios from "axios";
-
+import React, { useState, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { loginAsync, logout } from "../state/slice/loginSlice";
+import { useNavigate } from "react-router-dom";
 
 type LoginProps = {
-    switchToRegister: () => void;
+  switchToRegister: () => void;
 };
 
-const Login = ({switchToRegister}: LoginProps) => {
+const Login = ({ switchToRegister }: LoginProps) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { loading, isAuthenticated, error, user } = useAppSelector((state) => state.login);
 
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loginSuccess, setLoginSuccess] = useState(false); 
-    const [errorMessage, setErrorMessage] = useState(''); 
-    
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = { email, password };
+    await dispatch(loginAsync(formData));
+  };
 
-        const formData = {
-            email: email,
-            password: password
-        };
-
-        try {
-            const response = await axios.post("http://localhost:4000/api/flask/login", formData);
-            console.log('Response:', response.data);
-            if (response.status === 200) {
-                setLoginSuccess(true); 
-            }
-        } catch (error) {
-            console.error("There was an error!", error);
-            setErrorMessage("Invalid email or password"); 
-        }
-    };
-
-    if (loginSuccess) {
-        return (
-            <div className='mt-9 flex item-center justify-center'>
-                <h1 className='text-xl text-green-600'>Login Successful!</h1>
-            </div>
-        );
+  
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate("/"); // Replace with your desired protected route
     }
+  }, [isAuthenticated, navigate]);
 
-    return (
-        <div>
-            <div className='mt-9 flex item-center justify-center'>
-                <form onSubmit={handleSubmit} className='border border-gray-500 p-3 flex flex-col gap-6 w-60'>
-                    <input 
-                        type="text" 
-                        placeholder='Email' 
-                        className='border border-black'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <input 
-                        type="password" 
-                        placeholder='Password' 
-                        className='border border-black'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {errorMessage && <p className="text-red-600">{errorMessage}</p>}
-                    <p 
-                        className="mt-4 text-blue-600 cursor-pointer"
-                        onClick={switchToRegister}
-                    >
-                        Do not have account? Register
-                    </p>
-                    <button className='bg-red-600 text-white p-3'>Login</button>
-                </form>
-            </div>
-        </div>
-    )
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  return (
+    <div>
+      <div className="mt-9 flex items-center justify-center">
+        {isAuthenticated ? (
+          <div className="flex flex-col items-center">
+            <h1 className="text-xl mb-3">Welcome, {user?.name}!</h1>
+            <button
+              onClick={handleLogout}
+              className="bg-red-600 text-white p-3"
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            className="border border-gray-500 p-3 flex flex-col gap-6 w-60"
+          >
+            <input
+              type="text"
+              placeholder="Email"
+              className="border border-black"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              className="border border-black"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            {error && <p className="text-red-600">{error}</p>}
+            <p
+              className="mt-4 text-blue-600 cursor-pointer"
+              onClick={switchToRegister}
+            >
+              Don’t have an account? Register
+            </p>
+            <button
+              className="bg-red-600 text-white p-3"
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Login;

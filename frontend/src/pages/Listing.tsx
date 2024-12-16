@@ -1,10 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import { useAppSelector } from "../state/hooks";
+import ItemModal from "../component/itemModal";
 
 const MyListing = () =>{
+    const { user, isAuthenticated } = useAppSelector((state) => state.login);
+    const [menuOpen, setMenuOpen] = useState(false);
+
+
+    const handleButtonClick = () => {
+        setMenuOpen(!menuOpen);
+    }
+
     return(
         <div className="p-4">
-            <h1 className="text-2xl font-bold">My Listing</h1>
-            <p>ここにリストの内容を追加してください。</p>
+            {isAuthenticated && user ? (
+                <p className="text-2xl font-light">Welcome {user?.name}!</p>
+
+
+
+            ) : (
+                <p className="mt-4 text-lg">You are not logged in</p>
+            )}
         </div>
     );
 }
