@@ -1,6 +1,5 @@
-import { RuleTwoTone } from "@mui/icons-material";
-import React from "react";
-import { deflate } from "zlib";
+
+
 
 const Favorites = () => {
     return (
