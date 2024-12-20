@@ -89,4 +89,12 @@ def create_item():
     except Exception as e:
         return make_response(jsonify({'message': 'Error creating item', 'error': str(e)}), 500)
 
-#
+#check all items
+@user.route('/api/flask/getitem', methods=['GET'])
+def get_items():
+   try:
+      items = Item.query.all()
+      items_data = [{'title': item.title, 'price': item.price, 'description':item.description, 'images':item.images, 'user_id':item.user_id} for item in items]
+      return jsonify(items_data), 200
+   except Exception as e:
+      return make_response(jsonify({'message': 'error getting items', 'error': str(e)}), 500)
