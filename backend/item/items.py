@@ -48,7 +48,7 @@ def get_items():
 @item.route('/api/flask/getitem/<user_id>', methods=['GET'])
 def user_item(user_id):
     try:
-        user = User.query.filter_by(user_id=user_id).first()
+        user = User.query.filter_by(id=user_id).first()
         if not user:
             return make_response(jsonify({'message': 'not found user'}), 404)
         
