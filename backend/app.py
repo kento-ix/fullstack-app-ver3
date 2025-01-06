@@ -10,6 +10,7 @@ import os
 from table.db import db, User  # Import db and User from db.py
 from auth.auth import auth  # Import the auth blueprint
 from user.routes import user  # Import the user routes
+from item.items import item # Import the item routes
 
 load_dotenv()
 
@@ -29,6 +30,8 @@ jwt = JWTManager(app)
 #refister blueprint
 app.register_blueprint(auth)
 app.register_blueprint(user)
+app.register_blueprint(item)
+
 
 with app.app_context():
     db.create_all()
