@@ -12,7 +12,7 @@ import Setting from "./pages/Setting";
 import Favorites from "./pages/Favorites";
 import Home from "./pages/Home";
 
-import AddItem from "./pages/listing/addItem/addItem";
+import ItemForm from "./pages/listing/addItem/itemForm";
 
 const App: React.FC = () => {
   return (
@@ -23,7 +23,7 @@ const App: React.FC = () => {
         <Route path="mylisting" element={<MyListing />} />
         <Route path="setting" element={<Setting />} />
         <Route path="favorites" element={<Favorites />} />
-        <Route path="additem" element={<AddItem/>} />
+        <Route path="additem" element={<ItemForm/>} />
       </Routes>
     </Router>
   );
